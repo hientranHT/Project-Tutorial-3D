@@ -12,14 +12,16 @@ public class PlayerController : MonoBehaviour
 
     //
     private Rigidbody rigidbody;
-    private Animator animator;
+    //private Animator animator;
 
     //
     float horizontal;
     float vertical;
     float currentSpeed = 10.0f;
-    Vector3 currentJump = new Vector3(0, 10.0f, 0);
+    Vector3 currentJump = new Vector3(0, 7.5f, 0);
     bool playerIsOnPlane = true;
+    public Transform groundCheck;
+    public LayerMask ground;
 
 
     // Start is called before the first frame update
@@ -49,7 +51,9 @@ public class PlayerController : MonoBehaviour
         position.x = position.x + currentSpeed * horizontal * Time.deltaTime;
         //position.y = position.y + currentSpeed * vertical * Time.deltaTime;
         position.z = position.z + currentSpeed * vertical * Time.deltaTime;
-        rigidbody.MovePosition(position);
+        //rigidbody.MovePosition(position);
+        transform.position = position;
+
 
         //animator.SetTrigger("Walk");
     }
@@ -69,18 +73,15 @@ public class PlayerController : MonoBehaviour
 
     public void Jump()
     {
-        if(playerIsOnPlane)
+        if(IsGrounded())
         {
             rigidbody.AddForce(currentJump, ForceMode.Impulse);
-            playerIsOnPlane = false;
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    public bool IsGrounded()
     {
-        if(collision.gameObject.name == "Plane")
-        {
-            playerIsOnPlane = true;
-        }
+        return Physics.CheckSphere(groundCheck.position, .1f, ground);
     }
+   
 }
