@@ -9,7 +9,7 @@ public class PlaneMovingCOntroller : MonoBehaviour
 
     //
     public float moving = 20.0f;
-    bool isMovingLeft = true;
+    public bool isMovingLeft = true;
     float speed = 10f;
     Vector3 newPosision = new Vector3(0, 0, 0);
 
