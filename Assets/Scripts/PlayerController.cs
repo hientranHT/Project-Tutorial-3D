@@ -64,6 +64,20 @@ public class PlayerController : MonoBehaviour
                 isInvincible = false;
             }
         }
+
+        if (transform.position.y < -10) 
+        {
+            GetLoseGameLog();
+        }
+    }
+
+    public void GetLoseGameLog()
+    {
+        MenuController menuController = GetComponent<MenuController>();
+        if (menuController)
+        {
+            menuController.LoseGame();
+        }
     }
 
     private void FixedUpdate()
@@ -75,16 +89,13 @@ public class PlayerController : MonoBehaviour
         //rigidbody.MovePosition(position);
         transform.position = position;
 
+        Vector2 move = new Vector2(horizontal, vertical);
 
-        //animator.SetTrigger("Walk");
-
-        //Vector3 move = new Vector3(horizontal, vertical);
-
-        //if (!Mathf.Approximately(move.x, 0.0f) || !Mathf.Approximately(move.y, 0.0f) || !Mathf.Approximately(move.z, 0.0f))
-        //{
-        //    lookDirection.Set(move.x, move.y, move.z);
-        //    lookDirection.Normalize();
-        //}
+        if (!Mathf.Approximately(move.x, 0.0f) || !Mathf.Approximately(move.y, 0.0f))
+        {
+            lookDirection.Set(move.x, 0, move.y);
+            lookDirection.Normalize();
+        }
     }
 
     private void onMovement(InputAction.CallbackContext context)
@@ -117,7 +128,7 @@ public class PlayerController : MonoBehaviour
         isInvincible = true;
         invincibleTimer = timeInvincible;
 
-        GameObject projectileObject = Instantiate(projectilePrelab, rigidbody.position + new Vector3(0,0,1) * 2f, Quaternion.identity);
+        GameObject projectileObject = Instantiate(projectilePrelab, rigidbody.position + new Vector3(0,0,0.5f) * 2f, Quaternion.identity);
         Projectile projectile = projectileObject.GetComponent<Projectile>();
         projectile.Launch(lookDirection, 300f, timeInvincible);
     }

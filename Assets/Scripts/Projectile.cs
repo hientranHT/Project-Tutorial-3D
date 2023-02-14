@@ -18,10 +18,6 @@ public class Projectile : MonoBehaviour
 
     void Update()
     {
-        //if (Vector3.Distance(transform.position, transformPlayer.position) > 15)
-        //{
-        //    Destroy(gameObject);
-        //}
         timer += Time.deltaTime;
         if (timer >= time)
         {
@@ -35,5 +31,10 @@ public class Projectile : MonoBehaviour
     {
         rb2d.AddForce(direction * force);
         time = maxTime;
+    }
+
+    public void OnDestroy()
+    {
+        Destroy(gameObject);
     }
 }
